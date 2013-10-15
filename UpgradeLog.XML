@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="back_end">
+</Property><Property Name="Solution File" Value="D:\Development\back_end\back_end.sln">
+</Property><Property Name="User Options File" Value="D:\Development\back_end\back_end.suo">
+</Property><Property Name="Date" Value="14 октября 2013 г.">
+</Property><Property Name="Time" Value="16:55">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="back_end.sln" Description="File successfully backed up as D:\Development\back_end\Backup\back_end.sln">
+</Event><Event ErrorLevel="0" Project="" Source="back_end.suo" Description="File successfully backed up as D:\Development\back_end\Backup\back_end.suo">
+</Event><Event ErrorLevel="0" Project="back_end" Source="back_end\back_end.csproj" Description="Project file successfully backed up as D:\Development\back_end\Backup\back_end\back_end.csproj">
+</Event><Event ErrorLevel="0" Project="back_end" Source="back_end\HttpServer.cs" Description="File successfully backed up as D:\Development\back_end\Backup\back_end\HttpServer.cs">
+</Event><Event ErrorLevel="0" Project="back_end" Source="back_end\OperatorPasrser.cs" Description="File successfully backed up as D:\Development\back_end\Backup\back_end\OperatorPasrser.cs">
+</Event><Event ErrorLevel="0" Project="back_end" Source="back_end\Program.cs" Description="File successfully backed up as D:\Development\back_end\Backup\back_end\Program.cs">
+</Event><Event ErrorLevel="0" Project="back_end" Source="back_end\Properties\AssemblyInfo.cs" Description="File successfully backed up as D:\Development\back_end\Backup\back_end\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="back_end" Source="back_end\back_end.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="back_end" Source="back_end\back_end.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="back_end.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="back_end.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="back_end" Source="back_end\back_end.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

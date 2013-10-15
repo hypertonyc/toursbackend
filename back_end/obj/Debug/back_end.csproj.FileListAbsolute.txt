@@ -1,0 +1,6 @@
+D:\Development\back_end\back_end\bin\Debug\back_end.exe
+D:\Development\back_end\back_end\bin\Debug\back_end.pdb
+D:\Development\back_end\back_end\obj\Debug\ResolveAssemblyReference.cache
+D:\Development\back_end\back_end\obj\Debug\back_end.exe
+D:\Development\back_end\back_end\obj\Debug\back_end.pdb
+D:\Development\back_end\back_end\bin\Debug\back_end.exe.config
