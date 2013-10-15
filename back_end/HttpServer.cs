@@ -63,32 +63,30 @@ namespace back_end
             HttpListenerResponse response = context.Response;
             
             //получить параметры и запросить данные с серверов
-            string responseString = "";
-            SearchSession Session;
-            if (request.QueryString["SessionID"] == "")
+            String SessionID = request.QueryString["SessionID"];
+            SearchSession Session = null;
+            if (SessionID == null)
             {
                 Session = new SearchSession();
-                Session.Start();
-                responseString = request.QueryString["callback"] + "({\"SessionID\" : \"" + Session.GetId() + "\"});";
+                Session.Start();                
                 ThisServer.AddSession(Session);
                 System.Diagnostics.Debug.WriteLine("NewSession");
             }
             else
             {
-                if (ThisServer.GetSession(request.QueryString["SessionID"], out Session))
+                if (ThisServer.GetSession(SessionID, out Session))
                 {
-                    responseString = request.QueryString["callback"] + "({\"SessionID\" : \"" + Session.GetId() + "\", \"Delay\" : " + (int)Session.GetResult().TotalSeconds + "});";
-                    System.Diagnostics.Debug.WriteLine("Session " + request.QueryString["SessionID"]);
+                    System.Diagnostics.Debug.WriteLine("Session " + SessionID);
                 }
-            }
+            }    
             
-            response.ContentType = "text/javascript";
-            
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-            response.ContentLength64 = buffer.Length;
-            Stream output = response.OutputStream;
-            output.Write(buffer, 0, buffer.Length);
-            output.Close();
+            //response.ContentType = "text/javascript";
+            //responseString = request.QueryString["callback"] + "({\"SessionID\" : \"" + Session.GetId() + "\", \"Delay\" : " + (int)Session.GetResult().TotalSeconds + "});";            
+            //byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
+            //response.ContentLength64 = buffer.Length;
+            //Stream output = response.OutputStream;
+            //output.Write(buffer, 0, buffer.Length);
+            //output.Close();
         }
     }
 }
