@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Net;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Json;
@@ -29,7 +28,8 @@ namespace back_end
                 return;
             }
             SessionMap = new Dictionary<string, SearchSession>();
-            listener.BeginGetContext(new AsyncCallback(HttpRequestCallback), this);
+            listener.GetContextAsync();
+            //listener.BeginGetContext(new AsyncCallback(HttpRequestCallback), this);
         }
 
         ~HttpServer()
@@ -41,20 +41,30 @@ namespace back_end
             }
         }
 
-        public void AddSession(SearchSession s)
+        void CheckFinishedSession(SearchSession CurSession)
         {
-            SessionMap.Add(s.GetId(), s);
+            if (CurSession.IsFinished())
+                SessionMap.Remove(CurSession.GetSesID());
         }
 
-        public bool GetSession(String SessionId, out SearchSession s)
+        SearchSession ProcessRequest(HttpListenerRequest HttpRequest)
         {
-            return SessionMap.TryGetValue(SessionId, out s);
-        }
-        //DataContractJsonSerializer jsonstr = new DataContractJsonSerializer(
-
-        SearchSession ProcessRequest(HttpListenerContext HttpContext)
-        {
-            return null;
+            String SesID = HttpRequest.QueryString["SessionID"];//TODO: HardCoded!!!
+            SearchSession CurSession = null;
+            if (SesID == null)
+            {
+                CurSession = new SearchSession();
+                CurSession.Start(HttpRequest.QueryString);
+                SessionMap.Add(CurSession.GetSesID(), CurSession);
+            }
+            else
+            {
+                if(!SessionMap.TryGetValue(SesID, out CurSession))
+                {
+                    System.Diagnostics.Debug.WriteLine("Unknown Session (" + SesID + ")");
+                }
+            }
+            return CurSession;
         }
 
         static void HttpRequestCallback(IAsyncResult result)
@@ -63,40 +73,12 @@ namespace back_end
             HttpListener Listener = ThisServer.listener;
             HttpListenerContext Context = Listener.EndGetContext(result);
             Listener.BeginGetContext(new AsyncCallback(HttpRequestCallback), ThisServer);
-            SearchSession CurrentSession = ThisServer.ProcessRequest(Context);
-            CurrentSession.DoResponse(Context.Response);
-            
-            //HttpListenerRequest request = context.Request;
-            //String SessionID = request.QueryString["SessionID"];
-            //SearchSession Session = null;
-            //if (SessionID == null)
-            //{
-            //    Session = new SearchSession();
-            //    Session.Start();                
-            //    ThisServer.AddSession(Session);
-            //    System.Diagnostics.Debug.WriteLine("NewSession");
-            //}
-            //else
-            //{
-            //    if (ThisServer.GetSession(SessionID, out Session))
-            //    {
-            //        System.Diagnostics.Debug.WriteLine("Session " + SessionID);
-            //    }
-            //    else
-            //    {
-            //        response.Close();
-            //    }
-            //}
-
-            //HttpListenerResponse response = context.Response;
-            
-            //response.ContentType = "text/javascript";
-            //responseString = request.QueryString["callback"] + "({\"SessionID\" : \"" + Session.GetId() + "\", \"Delay\" : " + (int)Session.GetResult().TotalSeconds + "});";            
-            //byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-            //response.ContentLength64 = buffer.Length;
-            //Stream output = response.OutputStream;
-            //output.Write(buffer, 0, buffer.Length);
-            //output.Close();
+            SearchSession CurrentSession = ThisServer.ProcessRequest(Context.Request);
+            if (CurrentSession != null)
+            {
+                CurrentSession.MakeResponse(Context.Response);
+                ThisServer.CheckFinishedSession(CurrentSession);                
+            }
         }
     }
 }

@@ -9,10 +9,15 @@ namespace back_end
 {
     class OperatorPasrser
     {
+        public OperatorPasrser()
+        {
+
+        }
+
         public void GetXmlFromOperator(String Uri)
         {
-            HttpWebRequest wreq = (HttpWebRequest)WebRequest.Create(Uri);
-            HttpWebResponse wres = (HttpWebResponse)wreq.GetResponse();
+            WebRequest wreq = WebRequest.Create(Uri);
+            WebResponse wres = (HttpWebResponse)wreq.GetResponse();
             Stream resp = wres.GetResponseStream();
             using (StreamReader reader = new StreamReader(resp))
             {
