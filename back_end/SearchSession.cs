@@ -31,6 +31,11 @@ namespace back_end
             return DateTime.Now - dt;
         }
 
+        public void DoResponse(System.Net.HttpListenerResponse response)
+        {
+
+        }
+
         static string GetRandomString(int pwdLength)
         {
             const string rc = "qwertyuiopasdfghjklzxcvbnm";

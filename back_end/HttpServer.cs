@@ -52,33 +52,43 @@ namespace back_end
         }
         //DataContractJsonSerializer jsonstr = new DataContractJsonSerializer(
 
+        SearchSession ProcessRequest(HttpListenerContext HttpContext)
+        {
+            return null;
+        }
+
         static void HttpRequestCallback(IAsyncResult result)
         {
             HttpServer ThisServer = (HttpServer)result.AsyncState;
-            HttpListener listener = ThisServer.listener;
-            HttpListenerContext context = listener.EndGetContext(result);
-            listener.BeginGetContext(new AsyncCallback(HttpRequestCallback), ThisServer);
+            HttpListener Listener = ThisServer.listener;
+            HttpListenerContext Context = Listener.EndGetContext(result);
+            Listener.BeginGetContext(new AsyncCallback(HttpRequestCallback), ThisServer);
+            SearchSession CurrentSession = ThisServer.ProcessRequest(Context);
+            CurrentSession.DoResponse(Context.Response);
             
-            HttpListenerRequest request = context.Request;
-            HttpListenerResponse response = context.Response;
-            
-            //получить параметры и запросить данные с серверов
-            String SessionID = request.QueryString["SessionID"];
-            SearchSession Session = null;
-            if (SessionID == null)
-            {
-                Session = new SearchSession();
-                Session.Start();                
-                ThisServer.AddSession(Session);
-                System.Diagnostics.Debug.WriteLine("NewSession");
-            }
-            else
-            {
-                if (ThisServer.GetSession(SessionID, out Session))
-                {
-                    System.Diagnostics.Debug.WriteLine("Session " + SessionID);
-                }
-            }    
+            //HttpListenerRequest request = context.Request;
+            //String SessionID = request.QueryString["SessionID"];
+            //SearchSession Session = null;
+            //if (SessionID == null)
+            //{
+            //    Session = new SearchSession();
+            //    Session.Start();                
+            //    ThisServer.AddSession(Session);
+            //    System.Diagnostics.Debug.WriteLine("NewSession");
+            //}
+            //else
+            //{
+            //    if (ThisServer.GetSession(SessionID, out Session))
+            //    {
+            //        System.Diagnostics.Debug.WriteLine("Session " + SessionID);
+            //    }
+            //    else
+            //    {
+            //        response.Close();
+            //    }
+            //}
+
+            //HttpListenerResponse response = context.Response;
             
             //response.ContentType = "text/javascript";
             //responseString = request.QueryString["callback"] + "({\"SessionID\" : \"" + Session.GetId() + "\", \"Delay\" : " + (int)Session.GetResult().TotalSeconds + "});";            
